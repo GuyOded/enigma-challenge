@@ -1,3 +1,36 @@
+use enigma::Enigma;
+use enigma::reflectors;
+use enigma::rotors;
+
 fn main() {
-    println!("Hello, world!");
+    #[allow(unused_variables)]
+    let plain = "FROMTHECOMMANDERINCHIEFBASEDONADMIRALTYINTELLIGENCEGERMANSUBMARINESITUATIONREPORTPARTTWOCATEGORYKINGONENEGATIVEADJUSTMENTFIVECATEGORYTARETHREECATEGORYBAKERFIVECATEGORYOPTIONNEGATIVESIXCATEGORYUNITTHREECATEGORYLOVETWENTYCATEGORYSAILTARESEVENTEENCATEGORYPREPFOURCATEGORYMIKETWENTYTHREECATEGORYWILLIAMONEHUNDREDANDFORTYFOURCATEGORYSAILCASTFORTYFIVEOPTIONBAKERMEANSOPERATINGINTHEBALTICTHIRTEENOPTIONEASYMEANSTOTALOPERATINGEASTOFTWENTYSIXDEGREESWESTINTHEATLANTICTWENTYGRANDTOTALTHREEHUNDREDANDSIXTYTHREETWOCOPIESDELIVEREDTOFTHIRTYFOURFORLIEUTENANTLAIRD";
+    #[allow(unused_variables)]
+    let cipher = "AFJIKANRFTFQUQLFFGABFAZRYCIKPHONIXGLMNJAURLUJVBABLQWQEBECNOCOLTWEYXVWKEXEZBDQCNVSJEGDICCLTJPFNZMGQMSRJDUWRYBUWSMZQCMAWMMJIHOUYHCJFJYHRSUUVKMFNLRGFIAGOYRVSBCJNKOHDLATKRVUCMLPEKWTBETDIYHBGBTALEQBIMZPIARFKEJIHRFSWJJJVHLOMHSRGZSSYUONHJOHKGHIGTFBGNJKMOQTJAHMVASDAMIABEKJAIWDSYNNYXWLDFBBOUJKHCVRVMYDDRWNTUYJIFQFZISKMHBZVRRMDQQRJQBJMAJNMBTEWBJKJIUMATLODRXGYGCLQRBCOXTTIVGEKCHRAEDEWAYPNSZNPEEYYBOUYSEBIIVKZIIIZIKHNSIFQGFTXGNFHVFEGPADYSPYOXVVLFZDIAJIBYAFUKDHBMZOHXTLWRVMXHFWFAHNFXLXLLWMZOHAAIHIOMMLHQMKMEVHNUMHOCYZMDSJAZPLPPTYSZGALBEFVFJPGUQCQHQAJOUXGHWEJN";
+
+    // Example: Encrypting and Decrypting a Message
+
+    let left_rotor = rotors::create_rotor_1();
+    let middle_rotor = rotors::create_rotor_2();
+    let right_rotor = rotors::create_rotor_3();
+    let reflector = reflectors::create_reflector_a();
+
+    let mut enigma = Enigma::new(left_rotor, middle_rotor, right_rotor, reflector);
+    enigma.set_left_rotor_position_from_int(0);
+    enigma.set_middle_rotor_position_from_int(0);
+    enigma.set_right_rotor_position_from_int(0);
+    enigma.set_transposition('A', 'B');
+
+    let secret_message = "SECRETMESSAGE";
+    let cipher = enigma.encrypt_str(secret_message).unwrap();
+    println!("Plain: \"{}\"\nCipher: \"{}\"", secret_message, cipher);
+
+    enigma.set_left_rotor_position_from_int(0);
+    enigma.set_middle_rotor_position_from_int(0);
+    enigma.set_right_rotor_position_from_int(0);
+
+    println!(
+        "Deciphered: \"{}\" = Plain",
+        enigma.encrypt_string(cipher).unwrap()
+    )
 }
